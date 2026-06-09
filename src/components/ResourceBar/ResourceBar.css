@@ -1,0 +1,41 @@
+.resource-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  background: #0a0a0f;
+  border-bottom: 1px solid #1e293b;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: monospace;
+}
+
+.resource-label {
+  font-size: 0.75rem;
+  min-width: 90px;
+}
+
+.resource-track {
+  flex: 1;
+  height: 8px;
+  background: #1e293b;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.resource-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+.resource-value {
+  color: #6b7280;
+  font-size: 0.75rem;
+  min-width: 28px;
+  text-align: right;
+}

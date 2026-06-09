@@ -1,0 +1,93 @@
+.event-panel {
+  background: #0f172a;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.event-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.event-title {
+  color: #f59e0b;
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.observer-badge {
+  background: #1e293b;
+  border-radius: 4px;
+  color: #6b7280;
+  font-size: 0.65rem;
+  font-family: monospace;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+}
+
+.event-flavor {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.choice-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.host-choice:hover {
+  background: #1e3a5f;
+  border-color: #60a5fa;
+}
+
+.vote-choice:hover {
+  background: #1a2d1a;
+  border-color: #4ade80;
+}
+
+.choice-label {
+  flex: 1;
+}
+
+.vote-badge {
+  background: #4ade80;
+  border-radius: 10px;
+  color: #0a0a0f;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  margin-left: 0.5rem;
+}
+
+.host-note {
+  color: #475569;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin: 0;
+}

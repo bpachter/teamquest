@@ -1,0 +1,5 @@
+{
+  "name": "teamquest",
+  "main": "party/index.js",
+  "compatibilityDate": "2023-10-01"
+}
