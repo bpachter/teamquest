@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { connectToRoom, send, disconnect } from '../lib/partykit';
 import useGameStore from '../store/gameStore';
@@ -10,12 +10,57 @@ export default function GameRoom() {
   const { roomId } = useParams();
   const { phase, isHost, getCurrentEvent, players, votes, manifest, setRoomId } = useGameStore();
 
+  // If no name is stored (i.e. this is a joining player, not the host who just generated),
+  // show a name entry gate before connecting.
+  const storedName = localStorage.getItem('tq_player_name');
+  const [playerName, setPlayerName] = useState(storedName || '');
+  const [joined, setJoined] = useState(!!storedName);
+  const [nameInput, setNameInput] = useState('');
+
   useEffect(() => {
+    if (!joined) return;
     setRoomId(roomId);
-    const playerName = localStorage.getItem('tq_player_name') || 'Anonymous';
     connectToRoom(roomId, playerName);
     return () => disconnect();
-  }, [roomId]);
+  }, [joined, roomId]);
+
+  function handleJoin(e) {
+    e.preventDefault();
+    const name = nameInput.trim() || 'Anonymous';
+    localStorage.setItem('tq_player_name', name);
+    setPlayerName(name);
+    setJoined(true);
+  }
+
+  if (!joined) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-950 px-4">
+        <h1 className="text-3xl font-bold font-mono text-blue-400 mb-2">TEAMQUEST</h1>
+        <p className="text-gray-500 font-mono text-sm mb-8">You've been invited to a game.</p>
+        <form
+          onSubmit={handleJoin}
+          className="flex flex-col gap-4 w-full max-w-xs"
+        >
+          <label className="text-gray-300 font-mono text-sm">What should we call you?</label>
+          <input
+            className="bg-gray-900 border border-gray-700 rounded-md text-white font-mono px-4 py-2 focus:outline-none focus:border-blue-400"
+            type="text"
+            placeholder="Your name"
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            maxLength={24}
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-400 text-gray-950 font-bold font-mono py-2 rounded-md transition-colors"
+          >
+            Join Game
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   function handleChoiceSelect(choiceId, eventId) {
     if (isHost) {
@@ -56,12 +101,10 @@ export default function GameRoom() {
 
       {/* main area */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* canvas fills available space */}
         <div className="flex-1 overflow-hidden">
           <GameCanvas />
         </div>
 
-        {/* event panel */}
         {phase === 'playing' && currentEvent && (
           <EventPanel
             event={currentEvent}

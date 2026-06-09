@@ -4,8 +4,6 @@ import { renderFrame } from './renderer';
 
 export default function GameCanvas() {
   const canvasRef = useRef(null);
-  const rafRef = useRef(null);
-  const gameState = useGameStore();
 
   // resize canvas to maintain 16:9
   useEffect(() => {
@@ -25,20 +23,21 @@ export default function GameCanvas() {
     return () => window.removeEventListener('resize', resize);
   }, []);
 
-  // render loop
+  // render loop — reads store state directly each frame so the loop never restarts
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    let rafId;
 
     function loop() {
-      renderFrame(ctx, canvas, gameState);
-      rafRef.current = requestAnimationFrame(loop);
+      renderFrame(ctx, canvas, useGameStore.getState());
+      rafId = requestAnimationFrame(loop);
     }
 
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
-  });
+    rafId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
 
   return <canvas ref={canvasRef} className="block w-full" />;
 }

@@ -26,9 +26,7 @@ export default function Home() {
       setRoomId(roomId);
 
       connectToRoom(roomId, playerName);
-
-      // give socket a moment to open before sending manifest
-      await new Promise((res) => setTimeout(res, 600));
+      // SET_MANIFEST is queued and sent once the socket opens
       send({ type: 'SET_MANIFEST', manifest });
 
       navigate(`/play/${roomId}`);
